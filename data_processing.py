@@ -69,7 +69,7 @@ def encode_categorical(df, columns = None):
 
 #prepare data for encoding and imputation
 def prepare_data(df, feature_cols, target_col = None):
-    X = df[feature_cols]
+    X = df[feature_cols].copy()
     numeric_cols = X.select_dtypes(include = [np.number]).columns
     if len(numeric_cols) > 0:
         imp = SimpleImputer(strategy='mean')
@@ -93,6 +93,8 @@ def prepare_data(df, feature_cols, target_col = None):
     return X
 
 def normalize_data(X, scaler=None, method='Standard'):
+    if method is None:
+        return X, None          
     if method == 'Standard':
         scaler_obj = StandardScaler()
     elif method == 'MinMax':
