@@ -30,19 +30,14 @@ def handle_missing_values(df, strategy_dict):
     df_copy = df.copy()
     for col, strategy in strategy_dict.items():
         if strategy == "Mean":
-            imp = SimpleImputer(strategy='mean')
-            df_copy[col]= imp.fit_transform(df_copy[[col]])
-        elif strategy == "Median":
-            imp = SimpleImputer(strategy='median')
-            df_copy[col] = imp.fit_transform(df_copy[[col]])
-        elif strategy == "Mode":
-            imp = SimpleImputer(strategy='most_frequent')
-            df_copy[col] = imp.fit_transform(df_copy[[col]])
-        elif strategy == "Drop":
-            df_copy = df_copy.dropna(subset = [col])
-        elif isinstance(strategy, (int, float, str)):
-            imp = SimpleImputer(strategy='constant', fill_value=strategy)
-            df_copy[col] = imp.fit_transform(df_copy[[col]])
+    imp = SimpleImputer(strategy='mean')
+    df_copy[col] = imp.fit_transform(df_copy[[col]]).flatten()
+elif strategy == "Median":
+    imp = SimpleImputer(strategy='median')
+    df_copy[col] = imp.fit_transform(df_copy[[col]]).flatten()
+elif strategy == "Mode":
+    imp = SimpleImputer(strategy='most_frequent')
+    df_copy[col] = imp.fit_transform(df_copy[[col]]).flatten()
     return df_copy
 
 # smart detection of task type
